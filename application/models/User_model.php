@@ -2,15 +2,20 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User_model extends MY_Model
+class User_model extends CI_Model
 {
     protected $_table_name = 'users';
-    protected $_primary_name = 'id';
-    protected $_primary_filter = 'intval';
-    protected $_order_by = 'name';
+    
     public $rules = [
-        'email' => ['field' => 'txtEmail', 'label'=>'Email', 'rules'=>'trim|required|valid_email|xss_clean'],
+        'username' => ['field' => 'txtUsername', 'label'=>'Username', 'rules'=>'trim|required|xss_clean'],
         'password' => ['field' => 'txtPassword', 'label'=>'Password', 'rules'=>'trim|required']
+    ];
+
+    public $rules_user = [
+        'txtName' => ['field' => 'txtName', 'label'=>'Name', 'rules'=>'trim|required|xss_clean'],
+        'txtUsername' => ['field' => 'txtUsername', 'label'=>'Username', 'rules'=>'trim|required|xss_clean|callback__unique_username'],
+        'txtPassword' => ['field' => 'txtPassword', 'label'=>'Password', 'rules'=>'trim|required|matches[confTxtPassword]'],
+        'confTxtPassword' => ['field' => 'confTxtPassword', 'label'=>'Confirm Password', 'rules'=>'trim|required|matches[txtPassword]']
     ];
     
     function __construct()
@@ -20,52 +25,21 @@ class User_model extends MY_Model
 
     public function get_username($username)
     {
-        $this->db->select()->from('users')->where('email', $username);
+        $this->db->select()->from('users')->where('username', $username);
         $query = $this->db->get();
 
         if($query->num_rows() > 0){
-           return $query->row();
-        }
+         return $query->row();
+     }
 
-        return NULL;
-    }
-
-    // stored procedures
-
-    public function get_all_users()
-    {
-    	$query = $this->db->query('call Get_All_Users()');
-
-    	mysqli_next_result($this->db->conn_id);
-
-       	$result = $query->result();
-
-       	$query->free_result();
-
-       	return $result;
-    }
-    
-    /*public function get_articles($num = 20, $start = 0)
-    {
-    	$this->db->select()
-    		->from('articles')
-    		->where('status', 1)
-    		->order_by('created_at', "desc")
-    		->limit($num, $start);
-
-        $query = $this->db->get();
-
-        if($query->num_rows() > 0){
-           return $query->result();
-        }
-        
-        return NULL;
-    }*/
+     return NULL;
+ }
 
 
-    /*public function get_article_count()
-    {
-    	$query = $this->db->select('COUNT(id) as idcnt')->get('articles');
-    	return $query->row()->idcnt;
-    }*/
+
+ public function save($input_array){
+    $this->db->insert($this->_table_name, $input_array);
+    return $this->db->insert_id();
+}
+
 }

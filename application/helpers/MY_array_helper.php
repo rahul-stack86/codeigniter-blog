@@ -24,3 +24,8 @@ function random_element($array)
         shuffle($array);
         return array_pop($array);
 }
+
+
+function hash_password($string){
+                return hash('sha512', $string . config_item('encryption_key'));
+        }

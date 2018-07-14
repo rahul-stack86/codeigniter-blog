@@ -11,6 +11,7 @@ class Login extends CI_Controller
 		$this->load->model('user_model');
 		$this->lang->load('error_messages', 'english');
 		$this->load->helper('security');
+		$this->load->helper('MY_array_helper');
 		$this->load->library('form_validation');
 	}
 
@@ -22,8 +23,7 @@ class Login extends CI_Controller
 			$rules = $this->user_model->rules;
 			$this->form_validation->set_rules($rules);
 			if($this->form_validation->run() == TRUE){
-				$user_row = $this->user_model->get_username($this->input->post('txtEmail'));
-
+				$user_row = $this->user_model->get_username($this->input->post('txtUsername'));
 				if($user_row === NULL){
 
 					// SET FLASH USER NOT FOUND
@@ -33,7 +33,7 @@ class Login extends CI_Controller
 					
 				} else {
 
-					$password = $this->input->post('txtPassword');
+					$password = hash_password($this->input->post('txtPassword'));
 
 					// check for password correct or not
 
@@ -48,15 +48,15 @@ class Login extends CI_Controller
 
 						$newdata = array(
 							'id' => $user_row->id,
-							'username'  => $user_row->email,
+							'username'  => $user_row->username,
 							'logged_in' => TRUE
 						);
 
 						$this->session->set_userdata($newdata);
 
-						// redirect to the user dashboard
+						// redirect to the user jobs
 
-						redirect('users/dashboard', 'refresh');
+						redirect('users/jobs', 'refresh');
 
 					}
 
@@ -70,7 +70,6 @@ class Login extends CI_Controller
 
 		
 	}
-
 
 	public function logout()
 	{

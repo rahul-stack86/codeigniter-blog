@@ -30,7 +30,7 @@ h4 {
 
 <div class="container">	
 	<div class="row">
-		<div class="col-md-offset-3 col-md-6" style="padding-top: 50px;">
+		<div class="col-md-offset-3 col-md-6" style="padding-top: 150px;">
 			<?php 
 			if(validation_errors() != FALSE) {  
 				echo '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' . validation_errors() . '</div>';
@@ -43,16 +43,17 @@ h4 {
 			<form action="<?php echo site_url('login')?>" method="post">
 				<div class="form-login">
 					<h4>Welcome back.</h4>
-					<input type="email" class="form-control  input-sm chat-input" name="txtEmail" id="txtEmail" value="<?php echo set_value('txtEmail') ?>" placeholder="Email Id">
+					<input type="text" required="" class="form-control  input-sm chat-input" name="txtUsername" id="txtUsername" value="<?php echo set_value('txtUsername') ?>" placeholder="Username">
 					<br>
-					<input type="password" class="form-control  input-sm chat-input" name="txtPassword" id="txtPassword" placeholder="Password">
+					<input type="password" required="" class="form-control  input-sm chat-input" name="txtPassword" id="txtPassword" placeholder="Password">
 					<br>
 					<div class="wrapper">
 						<span class="group-btn">     
 							<button type="submit" class="btn btn-primary btn-md">login <i class="fa fa-sign-in"></i></button>
 						</span>
 					</div>
-
+					<br>
+					<p class="text-primary text-center"><a href="<?php echo site_url('register') ?>">Not Registered with Us ?</a></p>
 				</div>
 			</form>	
 		</div>

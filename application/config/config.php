@@ -34,7 +34,7 @@ spl_autoload_register('my_autoloader');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/projects/codeigniter-blog/public_html/';
+$config['base_url'] = 'http://localhost/gowebbaby/public_html/';
 
 /*
 |--------------------------------------------------------------------------
@@ -335,7 +335,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'vuYZ0ckAWd6B8NIPhSAyzVp2xWuVwt4U';
 
 /*
 |--------------------------------------------------------------------------
@@ -389,7 +389,7 @@ $config['encryption_key'] = '';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
+$config['sess_cookie_name'] = 'cisession';
 $config['sess_expiration'] = 0;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;

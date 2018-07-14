@@ -1,21 +1,34 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Blogs extends CI_Controller
-{
 
-	public function __construct()
+/**
+ * 
+ *
+ */
+
+include_once( APPPATH.'libraries/User_Controller.php' );
+
+class Jobs extends User_Controller
+{
+	
+	function __construct()
 	{
 		parent::__construct();
+
+		$this->load->model('job_model');
+		$this->load->model('counts_summary_model');
+
 		$this->load->library('pagination');
-		$this->load->model('article_model');
 	}
 
-	public function page($start = 0)
+	public function index($start = 0)
 	{
 
-		$config['base_url'] = base_url().'blogs/page/';
-		$config['total_rows'] = $this->article_model->get_article_count();
-		$config['per_page'] = 20;
+		$per_page = 20;
+
+		$config['base_url'] = base_url().'users/jobs/index/';
+		$config['total_rows'] = $this->counts_summary_model->get_count('jobs');
+		$config['per_page'] = $per_page;
 		$config['num_links'] = 5;
 		$config['full_tag_open'] = '<ul class="pagination">';
 		$config['full_tag_close'] = '</ul>';
@@ -36,11 +49,13 @@ class Blogs extends CI_Controller
 
 		$this->pagination->initialize($config);
 
-		$data['article_result'] = $this->article_model->get_articles(20, $start);
+		$this->data['job_result'] = $this->job_model->get_jobs($per_page, $start);
 
-		$data['pages'] = $this->pagination->create_links();
-		$data['start'] = $start;
+		$this->data['pages'] = $this->pagination->create_links();
+		$this->data['start'] = $start;
 
-		$this->load->template('blogs', $data);
+		$this->load->template('users/jobs', $this->data);
 	}
+
+
 }
